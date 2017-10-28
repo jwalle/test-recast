@@ -1,0 +1,4 @@
+.listUsers {
+    display: flex;
+    justify-content: space-around;
+}
