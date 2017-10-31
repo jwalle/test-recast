@@ -8,26 +8,71 @@ export default class UsersList extends React.Component{
         super(props);
 
         this.state = {
-            users: []
+            users,
+            humanCount: 0,
+            showOverlay: false
         };
+        this.updateUser = this.updateUser.bind(this);
+        this.toggleOverlay = this.toggleOverlay.bind(this);
+        this.countingHumans = this.countingHumans.bind(this);
     }
 
     componentWillMount() {
+        this.countingHumans();
+    }
+
+    toggleOverlay() {
         this.setState({
-            users
-        })
+           showOverlay: !this.state.showOverlay
+        });
+    }
+
+    countingHumans() {
+        let humanCount = 0;
+        for (let user of this.state.users) {
+            humanCount += user.isHuman;
+        }
+        this.setState({
+            humanCount
+        });
+    }
+
+    updateUser(oldUser, newUser) {
+        let newUsers = this.state.users;
+        for(let user of newUsers) {
+            if (user === oldUser) {
+                user = newUser;
+            }
+        }
+        this.setState({
+            users: newUsers
+        });
+        this.countingHumans();
     }
 
     render() {
-        var listUsers = this.state.users.map(function (user, index) {
+        let that = this;
+        let listUsers = this.state.users.map(function (user, index) {
             return (
-                <UserCard user={user} key={index}/>
+                <UserCard
+                    user={user}
+                    key={index}
+                    toggleOverlay={that.toggleOverlay}
+                    updateUser={that.updateUser} />
             )
         });
 
         return (
-            <div className='listUsers'>
-                {listUsers}
+            <div className='count-list'>
+                <div className="human-count">
+                    <p>There is </p>
+                    <h1>{this.state.humanCount}</h1>
+                    <p>human here right now !</p>
+                </div>
+                <ul className='listUsers'>
+                    {listUsers}
+                    {this.state.showOverlay ? <div id="fadeOverlay"/> : ''}
+                </ul>
             </div>
         );
     }

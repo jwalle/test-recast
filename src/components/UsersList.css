@@ -1,4 +1,25 @@
 .listUsers {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
+    padding: 0;
+    list-style: none;
+}
+
+.human-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.human-count p {
+    font-size: 2em;
+    color: white;
+}
+
+.human-count h1 {
+    padding: 10px;
+    margin: 15px;
+    background-color: whitesmoke;
+    border-radius: 10px;
 }
